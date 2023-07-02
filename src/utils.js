@@ -10,4 +10,18 @@ function getRating(numberOfFilmsWatched) {
   }
 }
 
-export {getRating};
+function formatDuration(durationInMinutes) {
+  const hour = Math.floor(durationInMinutes / 60);
+  const minute = durationInMinutes - hour * 60;
+  return `${hour}h ${minute}m`;
+}
+
+function getDescription(description) {
+  if (description.length > 140) {
+    return `${description.substring(0, 139)}...`;
+  }
+  return description;
+}
+
+
+export {getRating, formatDuration, getDescription};
