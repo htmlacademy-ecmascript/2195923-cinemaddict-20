@@ -1,3 +1,5 @@
+import {MAX_COMMENT_LENGTH} from './const';
+
 function getRating(numberOfFilmsWatched) {
   if (numberOfFilmsWatched === 0){
     return '';
@@ -17,8 +19,8 @@ function formatDuration(durationInMinutes) {
 }
 
 function getDescription(description) {
-  if (description.length > 140) {
-    return `${description.substring(0, 139)}...`;
+  if (description.length > MAX_COMMENT_LENGTH) {
+    return `${description.substring(0, MAX_COMMENT_LENGTH - 1)}&hellip;`;
   }
   return description;
 }
