@@ -9,7 +9,6 @@ export default class FilmCardPopupPresenter {
   }
 
   init({model}) {
-    console.log(model);
     this.#filmCardPopupView = new FilmCardPopupView({
       model: model[0],
     });
