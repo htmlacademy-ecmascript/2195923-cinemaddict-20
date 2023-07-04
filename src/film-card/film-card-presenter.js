@@ -9,7 +9,6 @@ export default class FilmCardPresenter {
   }
 
   init({model}) {
-    console.log(model);
     this.#filmCardView = new FilmCardStandardView({
       model: model,
       // onButtonAddToWatchlistClick,
@@ -25,6 +24,5 @@ export default class FilmCardPresenter {
   }
 
   onContentCardClick = () => {
-    console.log(1);
   };
 }
