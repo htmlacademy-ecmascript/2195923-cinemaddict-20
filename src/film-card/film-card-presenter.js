@@ -1,5 +1,5 @@
 import FilmCardStandardView from './film-card-standard-view';
-import {render} from '../framework/render';
+import {render, remove} from '../framework/render';
 
 export default class FilmCardPresenter {
   #container = null;
@@ -18,6 +18,10 @@ export default class FilmCardPresenter {
       // onContentCardClick,
     });
     render(this.#filmCardView, this.#container);
+  }
+
+  removeView() {
+    remove(this.#filmCardView);
   }
 
   onContentCardClick = () => {
