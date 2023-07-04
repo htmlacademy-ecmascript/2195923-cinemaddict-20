@@ -11,7 +11,7 @@ export default class FilmCardPresenter {
   init({model}) {
     console.log(model);
     this.#filmCardView = new FilmCardStandardView({
-      model: model[0],
+      model: model,
       // onButtonAddToWatchlistClick,
       // onButtonMarkAsWatchedClick,
       // onButtonFavoriteClick,
