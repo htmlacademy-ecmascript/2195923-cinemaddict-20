@@ -44,7 +44,7 @@ export default class FilmListPresenter {
       const filmCardPresenter = new FilmCardPresenter({container: containerFilms, containerPopup: this.#containerPopup});
       this.#filmPresenters.set(this.#filmModel[i].id, filmCardPresenter);
       filmCardPresenter.init({model: this.#filmModel[i]});
-      this.#filmPresenters.get(this.#filmModel[i].id).addObserver(this.#renderPopup);
+      this.#filmPresenters.get(this.#filmModel[i].id).addObserver(this.#makeAction);
     }
     if (DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page >= this.#filmModel.length) {
       this.#buttonShowMorePresenter.removeView();
@@ -62,7 +62,21 @@ export default class FilmListPresenter {
     this.#renderCards();
   };
 
-  #renderPopup = (event, presenterId) => {
+  #makeAction = (event, presenterId) => {
+    switch(event) {
+      case 'OPEN_POPUP': {
+        this.#renderPopup(presenterId);
+        break;
+      }
+      case 'CLOSE_POPUP': {
+        this.#closePopup(presenterId);
+        break;
+      }
+    }
+
+  };
+
+  #renderPopup(presenterId) {
     if (this.#popupId === null) {
       this.#currentOpenPopupPresenter = this.#filmPresenters.get(presenterId);
       this.#popupId = presenterId;
@@ -76,6 +90,10 @@ export default class FilmListPresenter {
     this.#currentOpenPopupPresenter.removePopup();
     this.#currentOpenPopupPresenter = this.#filmPresenters.get(presenterId);
     this.#popupId = presenterId;
-  };
-}
+  }
 
+  #closePopup(presenterId) {
+    this.#filmPresenters.get(presenterId).removePopup();
+    this.#popupId = null;
+  }
+}

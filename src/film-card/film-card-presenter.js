@@ -26,6 +26,7 @@ export default class FilmCardPresenter extends Observable{
     });
     this.#filmCardPopupView = new FilmCardPopupView({
       model: model,
+      onPopupCloseButtonClick: this.#handlePopupCloseButtonClick,
     });
     render(this.#filmCardStandardView, this.#container);
   }
@@ -40,6 +41,12 @@ export default class FilmCardPresenter extends Observable{
 
   #handleContentCardClick = () => {
     render(this.#filmCardPopupView, this.#containerPopup);
+    this.#filmCardPopupView.init();
     this._notify('OPEN_POPUP', this.#model.id);
+  };
+
+  #handlePopupCloseButtonClick = () => {
+    this.removePopup();
+    this._notify('CLOSE_POPUP', this.#model.id);
   };
 }
