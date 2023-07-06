@@ -77,13 +77,14 @@ export default class FilmListPresenter {
   };
 
   #renderPopup(presenterId) {
-    if (this.#popupId === null) {
-      this.#currentOpenPopupPresenter = this.#filmPresenters.get(presenterId);
-      this.#popupId = presenterId;
+    if (this.#popupId === presenterId) {
       return;
     }
 
-    if (this.#popupId === presenterId) {
+    if (this.#popupId === null) {
+      this.#currentOpenPopupPresenter = this.#filmPresenters.get(presenterId);
+      this.#popupId = presenterId;
+      document.addEventListener('keydown', this.#onEscKeydown);
       return;
     }
 
@@ -96,4 +97,13 @@ export default class FilmListPresenter {
     this.#filmPresenters.get(presenterId).removePopup();
     this.#popupId = null;
   }
+
+  #onEscKeydown = (evt) => {
+    evt.preventDefault();
+    if (evt.key !== 'Escape') {
+      return;
+    }
+    this.#closePopup(this.#popupId);
+    document.removeEventListener('keydown', this.#onEscKeydown);
+  };
 }
