@@ -40,10 +40,10 @@ export default class FilmCardStandardView extends AbstractView {
     this.#buttonAddToWatchlist.addEventListener('click',this.#onButtonAddToWatchlistClick);
     this.#buttonMarkAsWatched.addEventListener('click', this.#onButtonMarkAsWatchedClick);
     this.#buttonFavorite.addEventListener('click', this.#onButtonFavoriteClick);
-    this.#contentCard.addEventListener('click', this.#onContentCardClick);
+    this.#contentCard.addEventListener('click', this.onContentCardClick);
   }
 
-  #onContentCardClick = (evt) => {
+  onContentCardClick = (evt) => {
     evt.preventDefault();
     this.#handleContentCardClick();
   };

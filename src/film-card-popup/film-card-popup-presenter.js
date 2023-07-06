@@ -1,4 +1,4 @@
-import FilmCardPopupView from './film-card-popup-view';
+import FilmCardPopupView from '../film-card/film-card-popup-view';
 import {render} from '../framework/render';
 
 export default class FilmCardPopupPresenter {

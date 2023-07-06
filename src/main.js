@@ -12,13 +12,13 @@ const filmsModel = new FilmModel({filmsApiService: new FilmsApiService(END_POINT
 const header = document.querySelector('.header');
 const statistics = document.querySelector('.footer__statistics');
 // const filmCardContainer = document.querySelector('.films-list__container');
-// const body = document.querySelector('body');
+const body = document.querySelector('body');
 const main = document.querySelector('.main');
 const profilePresenter = new ProfilePresenter({container: header});
 const statisticsPresenter = new StatisticsPresenter({container: statistics});
 // const filmCardPresenter = new FilmCardPresenter({container: filmCardContainer});
 // const filmCardPopupPresenter = new FilmCardPopupPresenter({container: body});
-const filmListPresenter = new FilmListPresenter({container: main});
+const filmListPresenter = new FilmListPresenter({container: main, containerPopup: body});
 profilePresenter.init({numberOfFilmsWatched: 25});
 statisticsPresenter.init({numberOfFilms: 1035});
 

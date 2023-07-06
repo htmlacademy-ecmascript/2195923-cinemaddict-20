@@ -1,6 +1,6 @@
 import ButtonShowMoreView from './button-show-more-view';
 import Observable from '../framework/observable';
-import {render} from '../framework/render';
+import {remove, render} from '../framework/render';
 
 export default class ButtonShowMorePresenter extends Observable{
   #container = null;
@@ -15,6 +15,11 @@ export default class ButtonShowMorePresenter extends Observable{
     this.#buttonShowMoreView = new ButtonShowMoreView({handleButtonShowMoreButtonClick: this.handleButtonShowMoreButtonClick});
     render(this.#buttonShowMoreView, this.#container);
   }
+
+  removeView() {
+    remove(this.#buttonShowMoreView);
+  }
+
 
   handleButtonShowMoreButtonClick = () => {
     this.#page++;
