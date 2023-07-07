@@ -25,7 +25,7 @@ export default class FilmCardPopupView extends AbstractView {
   }
 
   get template() {
-    return createPopupFilmCardTemplate(this.#film);
+    return createPopupFilmCardTemplate({film: this.#film, comments: this.#comments});
   }
 
   setHandlers() {
