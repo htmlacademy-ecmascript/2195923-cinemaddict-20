@@ -3,15 +3,18 @@ import {createPopupFilmCardTemplate} from './film-card-popup-template';
 
 export default class FilmCardPopupView extends AbstractView {
   #film = null;
+  #comments = [];
   #popupCloseButton = null;
   #handlePopupCloseButtonClick = null;
 
   constructor({
-    model,
+    filmModel,
+    commentsModel,
     onPopupCloseButtonClick,
   }) {
     super();
-    this.#film = model;
+    this.#film = filmModel;
+    this.#comments = commentsModel;
     this.#handlePopupCloseButtonClick = onPopupCloseButtonClick;
     this.init();
   }

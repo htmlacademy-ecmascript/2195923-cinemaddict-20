@@ -8,24 +8,27 @@ export default class FilmCardPresenter extends Observable{
   #containerPopup = null;
   #filmCardStandardView = null;
   #filmCardPopupView = null;
-  #model = null;
+  #filmModel = null;
+  #commentsModel = [];
   constructor({container, containerPopup}) {
     super();
     this.#container = container;
     this.#containerPopup = containerPopup;
   }
 
-  init({model}) {
-    this.#model = model;
+  init({filmModel: filmModel, commentsModel: commentsModel}) {
+    this.#filmModel = filmModel;
+    this.#commentsModel = commentsModel;
     this.#filmCardStandardView = new FilmCardStandardView({
-      model: model,
+      filmModel: this.#filmModel,
       // onButtonAddToWatchlistClick,
       // onButtonMarkAsWatchedClick,
       // onButtonFavoriteClick,
       onContentCardClick: this.#handleContentCardClick,
     });
     this.#filmCardPopupView = new FilmCardPopupView({
-      model: model,
+      filmModel: this.#filmModel,
+      commentsModel: this.#commentsModel,
       onPopupCloseButtonClick: this.#handlePopupCloseButtonClick,
     });
     render(this.#filmCardStandardView, this.#container);
@@ -42,11 +45,11 @@ export default class FilmCardPresenter extends Observable{
   #handleContentCardClick = () => {
     render(this.#filmCardPopupView, this.#containerPopup);
     this.#filmCardPopupView.init();
-    this._notify('OPEN_POPUP', this.#model.id);
+    this._notify('OPEN_POPUP', this.#filmModel.id);
   };
 
   #handlePopupCloseButtonClick = () => {
     this.removePopup();
-    this._notify('CLOSE_POPUP', this.#model.id);
+    this._notify('CLOSE_POPUP', this.#filmModel.id);
   };
 }

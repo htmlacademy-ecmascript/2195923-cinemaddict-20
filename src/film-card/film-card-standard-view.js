@@ -12,14 +12,14 @@ export default class FilmCardStandardView extends AbstractView {
   #onButtonFavoriteClick = null;
   #handleContentCardClick = null;
   constructor({
-    model,
+    filmModel,
     onButtonAddToWatchlistClick,
     onButtonMarkAsWatchedClick,
     onButtonFavoriteClick,
     onContentCardClick,
   }) {
     super();
-    this.#film = model;
+    this.#film = filmModel;
 
     this.#buttonAddToWatchlist = this.element.querySelector('.film-card__controls-item--add-to-watchlist');
     this.#buttonMarkAsWatched = this.element.querySelector('.film-card__controls-item--mark-as-watched');

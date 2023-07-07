@@ -6,8 +6,11 @@ import {AUTHORIZATION, END_POINT} from './const';
 // import FilmCardPresenter from './film-card/film-card-presenter';
 // import FilmCardPopupPresenter from './film-card-popup/film-card-popup-presenter';
 import FilmListPresenter from './film-list/film-list-presenter';
+import CommentsApiService from './api/comments-api-service';
+import CommentsModel from './film-card/comments-model';
 
 const filmsModel = new FilmModel({filmsApiService: new FilmsApiService(END_POINT, AUTHORIZATION)});
+const commentsModel = new CommentsModel({commentsApiService: new CommentsApiService(END_POINT, AUTHORIZATION)});
 
 const header = document.querySelector('.header');
 const statistics = document.querySelector('.footer__statistics');
@@ -22,6 +25,15 @@ const filmListPresenter = new FilmListPresenter({container: main, containerPopup
 profilePresenter.init({numberOfFilmsWatched: 25});
 statisticsPresenter.init({numberOfFilms: 1035});
 
+const getComments = async () => {
+  for await (const film of filmsModel.films) {
+    commentsModel.init(film.id);
+  }
+};
 filmsModel.init().then(() => {
-  filmListPresenter.init({model: filmsModel.films});
+  getComments();
+  console.log(commentsModel.comments);
+  filmListPresenter.init({filmsModel: filmsModel.films, commentsModel: commentsModel.comments});
 });
+
+
