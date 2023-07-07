@@ -27,13 +27,10 @@ statisticsPresenter.init({numberOfFilms: 1035});
 
 const getComments = async () => {
   for await (const film of filmsModel.films) {
-    commentsModel.init(film.id);
+    await commentsModel.init(film.id);
   }
 };
-filmsModel.init().then(() => {
-  getComments();
-  console.log(commentsModel.comments);
+
+filmsModel.init().then(() => getComments()).then(() => {
   filmListPresenter.init({filmsModel: filmsModel.films, commentsModel: commentsModel.comments});
 });
-
-
