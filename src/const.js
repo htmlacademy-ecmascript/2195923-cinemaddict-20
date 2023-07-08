@@ -15,6 +15,13 @@ const Emoji = {
   ANGRY: 'angry',
 };
 
+const TypeControlButton = {
+  FAVORITE_BUTTON: 'favorite',
+  WATCHED_BUTTON: 'watched',
+  WATCHLIST_BUTTON: 'watchlist',
+};
+
+
 const MAX_COMMENT_LENGTH = 140;
 const DEFAULT_NUMBER_FILMS_ON_PAGE = 5;
 const AUTHORIZATION = 'Basic dPy4sfS45wcl1sh4I';
@@ -23,9 +30,10 @@ const END_POINT = 'https://20.ecmascript.pages.academy/cinemaddict';
 export {
   Method,
   Emoji,
+  TypeControlButton,
+  TimeFormat,
   AUTHORIZATION,
   END_POINT,
   MAX_COMMENT_LENGTH,
   DEFAULT_NUMBER_FILMS_ON_PAGE,
-  TimeFormat,
 };

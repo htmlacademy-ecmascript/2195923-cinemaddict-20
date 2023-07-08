@@ -2,8 +2,6 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 import {createPopupFilmCardTemplate} from './film-card-popup-template';
 
 export default class FilmCardPopupView extends AbstractStatefulView {
-  #film = null;
-  #comments = [];
   #popupCloseButton = null;
   #handlePopupCloseButtonClick = null;
 
@@ -19,7 +17,6 @@ export default class FilmCardPopupView extends AbstractStatefulView {
   }
 
   init() {
-    this.#popupCloseButton = this.element.querySelector('.film-details__close-btn');
     this._restoreHandlers();
   }
 
@@ -27,7 +24,12 @@ export default class FilmCardPopupView extends AbstractStatefulView {
     return createPopupFilmCardTemplate({state: this._state});
   }
 
+  get controlButtonContainer() {
+    return this.element.querySelector('.film-details__controls');
+  }
+
   _restoreHandlers() {
+    this.#popupCloseButton = this.element.querySelector('.film-details__close-btn');
     this.#popupCloseButton.addEventListener('click', this.#onPopupCloseButtonClick);
   }
 

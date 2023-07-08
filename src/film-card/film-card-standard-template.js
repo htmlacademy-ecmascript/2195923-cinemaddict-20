@@ -5,7 +5,7 @@ function createStandardFilmCardTemplate(film) {
   const durationFilm = formatDuration(film.filmInfo.duration);
   const description = getDescription(film.filmInfo.description);
   const activeAddToWatchlist = film.userDetails.watchlist ? 'film-card__controls-item--active' : '';
-  const activeMarkAsWatched = film.userDetails.alreadyWatched ? 'film-card__controls-item--active' : '';
+  const activeMarkAsWatched = film.userDetails.watched ? 'film-card__controls-item--active' : '';
   const activeFavorite = film.userDetails.favorite ? 'film-card__controls-item--active' : '';
 
   return (`

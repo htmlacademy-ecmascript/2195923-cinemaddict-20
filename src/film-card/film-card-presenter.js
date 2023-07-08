@@ -2,14 +2,17 @@ import FilmCardStandardView from './film-card-standard-view';
 import {render, remove} from '../framework/render';
 import FilmCardPopupView from './film-card-popup-view';
 import Observable from '../framework/observable';
+import FilmControlButtonPresenter from '../film-control-button/film-control-button-presenter';
 
 export default class FilmCardPresenter extends Observable{
   #container = null;
+  #containerControlButton = null;
   #containerPopup = null;
   #filmCardStandardView = null;
   #filmCardPopupView = null;
   #film = null;
   #commentsModel = [];
+  #filmControlButtonPresenter = null;
   constructor({container, containerPopup}) {
     super();
     this.#container = container;
@@ -39,6 +42,9 @@ export default class FilmCardPresenter extends Observable{
       comments: this.#commentsModel.comments.get(this.#film.id),
       onPopupCloseButtonClick: this.#handlePopupCloseButtonClick,
     });
+    this.#containerControlButton = this.#filmCardPopupView.controlButtonContainer;
+    this.#filmControlButtonPresenter = new FilmControlButtonPresenter({container: this.#containerControlButton, film: this.#film});
+    this.#filmControlButtonPresenter.init();
   }
 
   removeView() {

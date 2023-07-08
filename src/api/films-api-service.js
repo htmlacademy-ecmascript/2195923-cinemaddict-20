@@ -81,7 +81,7 @@ export default class FilmsApiService extends ApiService {
     delete adaptedFilmInfo['age_rating'];
 
     const adaptedUserDetails = {...userDetails,
-      alreadyWatched: userDetails['already_watched'],
+      watched: userDetails['already_watched'],
       watchingDate: userDetails['watching_date'],
     };
 
