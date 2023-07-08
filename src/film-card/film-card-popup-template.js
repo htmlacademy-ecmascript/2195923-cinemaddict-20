@@ -1,4 +1,4 @@
-import {formatDuration} from '../utils';
+import {formatDuration, getHumanizedTime} from '../utils';
 
 function getGenres(genres) {
   let genresList = '';
@@ -9,6 +9,8 @@ function getGenres(genres) {
 }
 
 function createComment(comment) {
+  const date = getHumanizedTime(comment.date);
+
   return (`
     <li class="film-details__comment" id="${comment.id}">
       <span class="film-details__comment-emoji">
@@ -18,7 +20,7 @@ function createComment(comment) {
         <p class="film-details__comment-text">${comment.comment}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${comment.author}</span>
-          <span class="film-details__comment-day">${comment.date}</span>
+          <span class="film-details__comment-day">${date}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>

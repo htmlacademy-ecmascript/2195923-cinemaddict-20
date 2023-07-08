@@ -1,5 +1,8 @@
 import {MAX_COMMENT_LENGTH} from './const';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 
+dayjs.extend(duration);
 function getRating(numberOfFilmsWatched) {
   if (numberOfFilmsWatched === 0){
     return '';
@@ -13,9 +16,8 @@ function getRating(numberOfFilmsWatched) {
 }
 
 function formatDuration(durationInMinutes) {
-  const hour = Math.floor(durationInMinutes / 60);
-  const minute = durationInMinutes - hour * 60;
-  return `${hour}h ${minute}m`;
+  const time = dayjs.duration(durationInMinutes, 'minutes');
+  return `${time.hours()}h ${time.minutes()}m`;
 }
 
 function getDescription(description) {
@@ -25,5 +27,13 @@ function getDescription(description) {
   return description;
 }
 
+function getHumanizedTime(time) {
+  return dayjs(time).format('YYYY/MM/DD HH:mm');
+}
 
-export {getRating, formatDuration, getDescription};
+export {
+  getRating,
+  formatDuration,
+  getDescription,
+  getHumanizedTime,
+};
