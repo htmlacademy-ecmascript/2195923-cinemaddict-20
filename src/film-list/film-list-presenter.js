@@ -11,7 +11,7 @@ export default class FilmListPresenter {
   #filmPresenters = new Map();
   #buttonShowMorePresenter = null;
   #filmsModel = [];
-  #commentsModel = new Map();
+  #commentsModel = null;
   #page = 1;
   #popupId = null;
   #currentOpenPopupPresenter = null;
@@ -45,7 +45,7 @@ export default class FilmListPresenter {
     for (let i = 0; i < DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page; i++) {
       const filmCardPresenter = new FilmCardPresenter({container: containerFilms, containerPopup: this.#containerPopup});
       this.#filmPresenters.set(this.#filmsModel[i].id, filmCardPresenter);
-      filmCardPresenter.init({filmModel: this.#filmsModel[i], commentsModel: this.#commentsModel.get(this.#filmsModel[i].id)});
+      filmCardPresenter.init({film: this.#filmsModel[i], commentsModel: this.#commentsModel});
       this.#filmPresenters.get(this.#filmsModel[i].id).addObserver(this.#makeAction);
     }
     if (DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page >= this.#filmsModel.length) {

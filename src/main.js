@@ -25,12 +25,6 @@ const filmListPresenter = new FilmListPresenter({container: main, containerPopup
 profilePresenter.init({numberOfFilmsWatched: 25});
 statisticsPresenter.init({numberOfFilms: 1035});
 
-const getComments = async () => {
-  for await (const film of filmsModel.films) {
-    await commentsModel.init(film.id);
-  }
-};
-
-filmsModel.init().then(() => getComments()).then(() => {
-  filmListPresenter.init({filmsModel: filmsModel.films, commentsModel: commentsModel.comments});
+filmsModel.init().then(() => {
+  filmListPresenter.init({filmsModel: filmsModel.films, commentsModel: commentsModel});
 });

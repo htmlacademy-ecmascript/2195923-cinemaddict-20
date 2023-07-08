@@ -8,7 +8,7 @@ export default class FilmCardPresenter extends Observable{
   #containerPopup = null;
   #filmCardStandardView = null;
   #filmCardPopupView = null;
-  #filmModel = null;
+  #film = null;
   #commentsModel = [];
   constructor({container, containerPopup}) {
     super();
@@ -16,22 +16,29 @@ export default class FilmCardPresenter extends Observable{
     this.#containerPopup = containerPopup;
   }
 
-  init({filmModel: filmModel, commentsModel: commentsModel}) {
-    this.#filmModel = filmModel;
+  init({film: film, commentsModel: commentsModel}) {
+    this.#film = film;
     this.#commentsModel = commentsModel;
+    this.#createStandardView();
+    render(this.#filmCardStandardView, this.#container);
+  }
+
+  #createStandardView() {
     this.#filmCardStandardView = new FilmCardStandardView({
-      filmModel: this.#filmModel,
+      film: this.#film,
       // onButtonAddToWatchlistClick,
       // onButtonMarkAsWatchedClick,
       // onButtonFavoriteClick,
       onContentCardClick: this.#handleContentCardClick,
     });
+  }
+
+  #createPopupView() {
     this.#filmCardPopupView = new FilmCardPopupView({
-      filmModel: this.#filmModel,
-      commentsModel: this.#commentsModel,
+      film: this.#film,
+      comments: this.#commentsModel.comments.get(this.#film.id),
       onPopupCloseButtonClick: this.#handlePopupCloseButtonClick,
     });
-    render(this.#filmCardStandardView, this.#container);
   }
 
   removeView() {
@@ -43,13 +50,20 @@ export default class FilmCardPresenter extends Observable{
   }
 
   #handleContentCardClick = () => {
-    render(this.#filmCardPopupView, this.#containerPopup);
-    this.#filmCardPopupView.init();
-    this._notify('OPEN_POPUP', this.#filmModel.id);
+    this.#getComments().then(() => {
+      this.#createPopupView();
+      render(this.#filmCardPopupView, this.#containerPopup);
+      this.#filmCardPopupView.init();
+      this._notify('OPEN_POPUP', this.#film.id);
+    });
+  };
+
+  #getComments = async () => {
+    await this.#commentsModel.init(this.#film.id);
   };
 
   #handlePopupCloseButtonClick = () => {
     this.removePopup();
-    this._notify('CLOSE_POPUP', this.#filmModel.id);
+    this._notify('CLOSE_POPUP', this.#film.id);
   };
 }

@@ -8,13 +8,13 @@ export default class FilmCardPopupView extends AbstractView {
   #handlePopupCloseButtonClick = null;
 
   constructor({
-    filmModel,
-    commentsModel,
+    film,
+    comments,
     onPopupCloseButtonClick,
   }) {
     super();
-    this.#film = filmModel;
-    this.#comments = commentsModel;
+    this.#film = film;
+    this.#comments = comments;
     this.#handlePopupCloseButtonClick = onPopupCloseButtonClick;
     this.init();
   }
