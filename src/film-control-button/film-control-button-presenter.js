@@ -9,16 +9,16 @@ export default class FilmControlButtonPresenter extends Observable{
   #film = null;
   #viewType = null;
   #watchlistButtonView = null;
-  #handleControlButtonClick = null;
-  // #watchedButtonView = null;
-  // #favoriteButtonView = null;
-  constructor({container, filmsModel, film, type, handleControlButtonClick}) {
+  #watchedButtonView = null;
+  #favoriteButtonView = null;
+  #handleFilmControlButtonClick = null;
+  constructor({container, filmsModel, film, type, handleFilmControlButtonClick}) {
     super();
     this.#container = container;
     this.#filmsModel = filmsModel;
     this.#film = film;
     this.#viewType = type;
-    this.#handleControlButtonClick = handleControlButtonClick;
+    this.#handleFilmControlButtonClick = handleFilmControlButtonClick;
     this.#filmsModel.addObserver(this.#makeAction);
   }
 
@@ -27,7 +27,7 @@ export default class FilmControlButtonPresenter extends Observable{
       case 'UPDATE_FILM':
         if(this.#film.id === payload.id) {
           this.#film = payload;
-          this.#removeWatchlistButtonView();
+          this.#removeControlButtonViews();
           this.init();
         }
         break;
@@ -39,30 +39,32 @@ export default class FilmControlButtonPresenter extends Observable{
       film: this.#film,
       buttonType: TypeControlButton.WATCHLIST_BUTTON,
       viewType: this.#viewType,
-      handle: {
-        handleWatchlistClick: this.#handleWatchlistClick,
-      }
+      handleControlButtonClick: this.#handleControlButtonClick,
     });
-    // this.#watchedButtonView = new FilmControlButtonView({
-    //   film: this.#film,
-    //   buttonType: TypeControlButton.WATCHED_BUTTON,
-    //   viewType: this.#viewType
-    // });
-    // this.#favoriteButtonView = new FilmControlButtonView({
-    //   film: this.#film,
-    //   buttonType: TypeControlButton.FAVORITE_BUTTON,
-    //   viewType: this.#viewType
-    // });
+    this.#watchedButtonView = new FilmControlButtonView({
+      film: this.#film,
+      buttonType: TypeControlButton.WATCHED_BUTTON,
+      viewType: this.#viewType,
+      handleControlButtonClick: this.#handleControlButtonClick,
+    });
+    this.#favoriteButtonView = new FilmControlButtonView({
+      film: this.#film,
+      buttonType: TypeControlButton.FAVORITE_BUTTON,
+      viewType: this.#viewType,
+      handleControlButtonClick: this.#handleControlButtonClick,
+    });
     render(this.#watchlistButtonView, this.#container);
-    // render(this.#watchedButtonView, this.#container);
-    // render(this.#favoriteButtonView, this.#container);
+    render(this.#watchedButtonView, this.#container);
+    render(this.#favoriteButtonView, this.#container);
   }
 
-  #removeWatchlistButtonView() {
+  #removeControlButtonViews() {
     remove(this.#watchlistButtonView);
+    remove(this.#favoriteButtonView);
+    remove(this.#watchedButtonView);
   }
 
-  #handleWatchlistClick = (watchlistButtonState) => {
-    this.#handleControlButtonClick(watchlistButtonState);
+  #handleControlButtonClick = (state) => {
+    this.#handleFilmControlButtonClick(state);
   };
 }

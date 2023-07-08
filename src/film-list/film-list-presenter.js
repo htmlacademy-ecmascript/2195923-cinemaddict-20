@@ -76,7 +76,6 @@ export default class FilmListPresenter {
       }
       case 'WATCHLIST_CLICK': {
         this.#filmsModel.update(payload);
-        console.log(this.#filmsModel.films);
         break;
       }
     }

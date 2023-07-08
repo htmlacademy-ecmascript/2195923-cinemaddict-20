@@ -5,22 +5,20 @@ import {TypeControlButton} from '../const';
 export default class FilmControlButtonView extends AbstractStatefulView {
   #buttonType = null;
   #viewType = null;
-  #handleWatchlistClick = null;
+  #handleControlButtonClick = null;
   #film = null;
   constructor({
     film,
     buttonType,
     viewType,
-    handle: {
-      handleWatchlistClick,
-    },
+    handleControlButtonClick
   }) {
     super();
     this.#buttonType = buttonType;
     this.#viewType = viewType;
     this.#film = film;
     this._state = this.#parseToState(film);
-    this.#handleWatchlistClick = handleWatchlistClick;
+    this.#handleControlButtonClick = handleControlButtonClick;
     this.init();
   }
 
@@ -40,7 +38,7 @@ export default class FilmControlButtonView extends AbstractStatefulView {
     evt.preventDefault();
     switch (this.#buttonType) {
       case TypeControlButton.WATCHLIST_BUTTON:
-        this.#handleWatchlistClick({
+        this.#handleControlButtonClick({
           ...this.#film,
           userDetails: {
             watched: this.#film.userDetails.watched,
@@ -51,12 +49,25 @@ export default class FilmControlButtonView extends AbstractStatefulView {
         });
         break;
       case TypeControlButton.FAVORITE_BUTTON:
-        this.updateElement({favorite: !this._state.favorite});
+        this.#handleControlButtonClick({
+          ...this.#film,
+          userDetails: {
+            watched: this.#film.userDetails.watched,
+            watchingDate: this.#film.userDetails.watchingDate,
+            favorite: !this._state.favorite,
+            watchlist: this.#film.userDetails.watchlist
+          }
+        });
         break;
       case TypeControlButton.WATCHED_BUTTON:
-        this.updateElement({
-          watched: !this._state.watched,
-          watchingDate: !this._state.watched ? new Date() : null,
+        this.#handleControlButtonClick({
+          ...this.#film,
+          userDetails: {
+            watched: !this._state.watched,
+            watchingDate: !this._state.watched ? new Date() : null,
+            favorite: this.#film.userDetails.favorite,
+            watchlist: this.#film.userDetails.watchlist
+          }
         });
         break;
     }
