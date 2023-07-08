@@ -26,5 +26,5 @@ profilePresenter.init({numberOfFilmsWatched: 25});
 statisticsPresenter.init({numberOfFilms: 1035});
 
 filmsModel.init().then(() => {
-  filmListPresenter.init({filmsModel: filmsModel.films, commentsModel: commentsModel});
+  filmListPresenter.init({filmsModel: filmsModel, commentsModel: commentsModel});
 });

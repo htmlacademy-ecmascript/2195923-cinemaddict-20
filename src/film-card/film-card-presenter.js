@@ -36,7 +36,8 @@ export default class FilmCardPresenter extends Observable{
     this.#filmCardControlButtonPresenter = new FilmControlButtonPresenter({
       container: containerControlButton,
       film: this.#film,
-      type: TypeControlButtonView.STANDARD
+      type: TypeControlButtonView.STANDARD,
+      handleControlButtonClick: this.#handleControlButtonClick,
     });
     this.#filmCardControlButtonPresenter.init();
   }
@@ -51,7 +52,8 @@ export default class FilmCardPresenter extends Observable{
     this.#filmPopupControlButtonPresenter = new FilmControlButtonPresenter({
       container: containerControlButton,
       film: this.#film,
-      type: TypeControlButtonView.EXTENDS
+      type: TypeControlButtonView.EXTENDS,
+      handleControlButtonClick: this.#handleControlButtonClick,
     });
     this.#filmPopupControlButtonPresenter.init();
   }
@@ -80,5 +82,9 @@ export default class FilmCardPresenter extends Observable{
   #handlePopupCloseButtonClick = () => {
     this.removePopup();
     this._notify('CLOSE_POPUP', this.#film.id);
+  };
+
+  #handleControlButtonClick = (watchlistButtonState) => {
+    this._notify('WATCHLIST_CLICK', watchlistButtonState);
   };
 }

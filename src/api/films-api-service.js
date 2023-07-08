@@ -7,18 +7,18 @@ export default class FilmsApiService extends ApiService {
       .then(ApiService.parseResponse);
   }
 
-  // async updatePoint(point) {
-  //   const response = await this._load({
-  //     url: `points/${point.id}`,
-  //     method: Method.PUT,
-  //     body: JSON.stringify(this.#adaptToServer(point)),
-  //     headers: new Headers({'Content-Type': 'application/json'}),
-  //   });
-  //
-  //   const parsedResponse = await ApiService.parseResponse(response);
-  //
-  //   return parsedResponse;
-  // }
+  async updateUserDetails(film) {
+    const response = await this._load({
+      url: `movies/${film.id}`,
+      method: Method.PUT,
+      body: JSON.stringify(this.#adaptToServer(film)),
+      headers: new Headers({'Content-Type': 'application/json'}),
+    });
+
+    const parsedResponse = await ApiService.parseResponse(response);
+
+    return parsedResponse;
+  }
 
   // async addPoint(point) {
   //   const response = await this._load({
@@ -42,21 +42,35 @@ export default class FilmsApiService extends ApiService {
   //   return response;
   // }
 
-  // #adaptToServer(point) {
-  //   const adaptedPoint = {...point,
-  //     'base_price': point.basePrice,
-  //     'date_from': point.dateFrom instanceof Date ? point.dateFrom.toISOString() : null,
-  //     'date_to': point.dateTo instanceof Date ? point.dateTo.toISOString() : null,
-  //     'is_favorite': point.isFavorite,
-  //   };
-  //
-  //   delete adaptedPoint.basePrice;
-  //   delete adaptedPoint.dateFrom;
-  //   delete adaptedPoint.dateTo;
-  //   delete adaptedPoint.isFavorite;
-  //
-  //   return adaptedPoint;
-  // }
+  #adaptToServer(film) {
+    return {
+      'id': film.id,
+      'film_info': {
+        'title': film.filmInfo.title,
+        'alternative_title': film.filmInfo.alternativeTitle,
+        'description': film.filmInfo.description,
+        'total_rating': film.filmInfo.totalRating,
+        'poster': film.filmInfo.poster,
+        'age_rating': film.filmInfo.ageRating,
+        'director': film.filmInfo.director,
+        'writers': film.filmInfo.writers,
+        'actors': film.filmInfo.actors,
+        'genre': film.filmInfo.genre,
+        'duration': film.filmInfo.duration,
+        'release': {
+          'date': film.filmInfo.release.date,
+          'release_country': film.filmInfo.release.releaseCountry,
+        }
+      },
+      'user_details': {
+        'watchlist': film.userDetails.watchlist,
+        'already_watched': film.userDetails.watched,
+        'watching_date': film.userDetails.watchingDate,
+        'favorite': film.userDetails.favorite,
+      },
+      'comments': film.comments,
+    };
+  }
 
   adaptToClient(film) {
     const filmInfo = film['film_info'];

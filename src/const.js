@@ -1,6 +1,7 @@
 const Method = {
   POST: 'POST',
   GET: 'GET',
+  PUT: 'PUT',
 };
 
 const TimeFormat = {

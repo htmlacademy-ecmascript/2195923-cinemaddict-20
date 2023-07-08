@@ -44,11 +44,11 @@ export default class FilmListPresenter {
     const containerFilms = this.#filmListView.containerFilms;
     for (let i = 0; i < DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page; i++) {
       const filmCardPresenter = new FilmCardPresenter({container: containerFilms, containerPopup: this.#containerPopup});
-      this.#filmPresenters.set(this.#filmsModel[i].id, filmCardPresenter);
-      filmCardPresenter.init({film: this.#filmsModel[i], commentsModel: this.#commentsModel});
-      this.#filmPresenters.get(this.#filmsModel[i].id).addObserver(this.#makeAction);
+      this.#filmPresenters.set(this.#filmsModel.films[i].id, filmCardPresenter);
+      filmCardPresenter.init({film: this.#filmsModel.films[i], commentsModel: this.#commentsModel});
+      this.#filmPresenters.get(this.#filmsModel.films[i].id).addObserver(this.#makeAction);
     }
-    if (DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page >= this.#filmsModel.length) {
+    if (DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page >= this.#filmsModel.films.length) {
       this.#buttonShowMorePresenter.removeView();
     }
   }
@@ -64,14 +64,19 @@ export default class FilmListPresenter {
     this.#renderCards();
   };
 
-  #makeAction = (event, presenterId) => {
+  #makeAction = (event, payload) => {
     switch(event) {
       case 'OPEN_POPUP': {
-        this.#renderPopup(presenterId);
+        this.#renderPopup(payload);
         break;
       }
       case 'CLOSE_POPUP': {
-        this.#closePopup(presenterId);
+        this.#closePopup(payload);
+        break;
+      }
+      case 'WATCHLIST_CLICK': {
+        this.#filmsModel.update(payload);
+        console.log(this.#filmsModel.films);
         break;
       }
     }
