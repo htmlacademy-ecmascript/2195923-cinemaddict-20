@@ -27,8 +27,8 @@ function getDescription(description) {
   return description;
 }
 
-function getHumanizedTime(time) {
-  return dayjs(time).format('YYYY/MM/DD HH:mm');
+function getHumanizedTime(time, format) {
+  return dayjs(time).format(format);
 }
 
 export {

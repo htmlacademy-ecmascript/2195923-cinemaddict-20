@@ -1,4 +1,5 @@
 import {formatDuration, getHumanizedTime} from '../utils';
+import {TimeFormat} from '../const';
 
 function getGenres(genres) {
   let genresList = '';
@@ -9,7 +10,7 @@ function getGenres(genres) {
 }
 
 function createComment(comment) {
-  const date = getHumanizedTime(comment.date);
+  const date = getHumanizedTime(comment.date, TimeFormat.DATE_COMMENT_CREATE);
 
   return (`
     <li class="film-details__comment" id="${comment.id}">
@@ -34,15 +35,16 @@ function createComments(comments) {
   }
   return comments.map((comment) => createComment(comment)).join('');
 }
-function createPopupFilmCardTemplate({film, comments}) {
-  const writers = film.filmInfo.writers.join(', ');
-  const actors = film.filmInfo.actors.join(', ');
-  const duration = formatDuration(film.filmInfo.duration);
-  const genre = film.filmInfo.genre.length > 1 ? 'Genres' : 'Genre';
-  const genresList = getGenres(film.filmInfo.genre);
-  const activeAddToWatchlist = film.userDetails.watchlist ? 'film-details__control-button--active' : '';
-  const activeMarkAsWatched = film.userDetails.alreadyWatched ? 'film-details__control-button--active' : '';
-  const activeFavorite = film.userDetails.favorite ? 'film-details__control-button--active' : '';
+function createPopupFilmCardTemplate({state: state}) {
+  const writers = state.filmInfo.writers.join(', ');
+  const actors = state.filmInfo.actors.join(', ');
+  const duration = formatDuration(state.filmInfo.duration);
+  const genre = state.filmInfo.genre.length > 1 ? 'Genres' : 'Genre';
+  const genresList = getGenres(state.filmInfo.genre);
+  const releaseFilmDate = getHumanizedTime(state.filmInfo.release.date, TimeFormat.DATE_RELEASE_FILM);
+  const activeAddToWatchlist = state.userDetails.watchlist ? 'film-details__control-button--active' : '';
+  const activeMarkAsWatched = state.userDetails.alreadyWatched ? 'film-details__control-button--active' : '';
+  const activeFavorite = state.userDetails.favorite ? 'film-details__control-button--active' : '';
 
   return (`
     <section class="film-details">
@@ -53,27 +55,27 @@ function createPopupFilmCardTemplate({film, comments}) {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="${film.filmInfo.poster}" alt="">
+              <img class="film-details__poster-img" src="${state.filmInfo.poster}" alt="">
 
-              <p class="film-details__age">${film.filmInfo.ageRating}+</p>
+              <p class="film-details__age">${state.filmInfo.ageRating}+</p>
             </div>
 
             <div class="film-details__info">
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
-                  <h3 class="film-details__title">${film.filmInfo.title}</h3>
-                  <p class="film-details__title-original">Original: ${film.filmInfo.alternativeTitle}</p>
+                  <h3 class="film-details__title">${state.filmInfo.title}</h3>
+                  <p class="film-details__title-original">Original: ${state.filmInfo.alternativeTitle}</p>
                 </div>
 
                 <div class="film-details__rating">
-                  <p class="film-details__total-rating">${film.filmInfo.totalRating}</p>
+                  <p class="film-details__total-rating">${state.filmInfo.totalRating}</p>
                 </div>
               </div>
 
               <table class="film-details__table">
                 <tr class="film-details__row">
                   <td class="film-details__term">Director</td>
-                  <td class="film-details__cell">${film.filmInfo.director}</td>
+                  <td class="film-details__cell">${state.filmInfo.director}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
@@ -85,7 +87,7 @@ function createPopupFilmCardTemplate({film, comments}) {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">30 March 1945</td>
+                  <td class="film-details__cell">${releaseFilmDate}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Duration</td>
@@ -93,7 +95,7 @@ function createPopupFilmCardTemplate({film, comments}) {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
-                  <td class="film-details__cell">${film.filmInfo.release.releaseCountry}</td>
+                  <td class="film-details__cell">${state.filmInfo.release.releaseCountry}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">${genre}</td>
@@ -104,7 +106,7 @@ function createPopupFilmCardTemplate({film, comments}) {
               </table>
 
               <p class="film-details__film-description">
-                ${film.filmInfo.description}
+                ${state.filmInfo.description}
               </p>
             </div>
           </div>
@@ -118,10 +120,10 @@ function createPopupFilmCardTemplate({film, comments}) {
 
         <div class="film-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments?.length || 0}</span></h3>
+            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${state.comments?.length || 0}</span></h3>
 
             <ul class="film-details__comments-list">
-              ${createComments(comments)}
+              ${createComments(state.comments)}
             </ul>
 
             <form class="film-details__new-comment" action="" method="get">

@@ -13,8 +13,7 @@ export default class FilmCardPopupView extends AbstractStatefulView {
     onPopupCloseButtonClick,
   }) {
     super();
-    this.#film = film;
-    this.#comments = comments;
+    this._state = this.#parseToState({film, comments});
     this.#handlePopupCloseButtonClick = onPopupCloseButtonClick;
     this.init();
   }
@@ -25,7 +24,7 @@ export default class FilmCardPopupView extends AbstractStatefulView {
   }
 
   get template() {
-    return createPopupFilmCardTemplate({film: this.#film, comments: this.#comments});
+    return createPopupFilmCardTemplate({state: this._state});
   }
 
   _restoreHandlers() {

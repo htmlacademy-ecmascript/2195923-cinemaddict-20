@@ -3,6 +3,11 @@ const Method = {
   GET: 'GET',
 };
 
+const TimeFormat = {
+  DATE_RELEASE_FILM: 'DD MMMM YYYY',
+  DATE_COMMENT_CREATE: 'YYYY/MM/DD HH:mm'
+};
+
 const Emoji = {
   SMILE: 'smile',
   SLEEPING: 'sleeping',
@@ -22,4 +27,5 @@ export {
   END_POINT,
   MAX_COMMENT_LENGTH,
   DEFAULT_NUMBER_FILMS_ON_PAGE,
+  TimeFormat,
 };
