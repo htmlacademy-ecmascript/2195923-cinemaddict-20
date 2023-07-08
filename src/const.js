@@ -21,6 +21,10 @@ const TypeControlButton = {
   WATCHLIST_BUTTON: 'watchlist',
 };
 
+const TypeControlButtonView = {
+  STANDARD: 'STANDARD',
+  EXTENDS: 'EXTENDS',
+};
 
 const MAX_COMMENT_LENGTH = 140;
 const DEFAULT_NUMBER_FILMS_ON_PAGE = 5;
@@ -31,6 +35,7 @@ export {
   Method,
   Emoji,
   TypeControlButton,
+  TypeControlButtonView,
   TimeFormat,
   AUTHORIZATION,
   END_POINT,

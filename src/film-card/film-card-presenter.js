@@ -3,16 +3,17 @@ import {render, remove} from '../framework/render';
 import FilmCardPopupView from './film-card-popup-view';
 import Observable from '../framework/observable';
 import FilmControlButtonPresenter from '../film-control-button/film-control-button-presenter';
+import {TypeControlButtonView} from '../const';
 
 export default class FilmCardPresenter extends Observable{
   #container = null;
-  #containerControlButton = null;
   #containerPopup = null;
   #filmCardStandardView = null;
   #filmCardPopupView = null;
   #film = null;
   #commentsModel = [];
-  #filmControlButtonPresenter = null;
+  #filmCardControlButtonPresenter = null;
+  #filmPopupControlButtonPresenter = null;
   constructor({container, containerPopup}) {
     super();
     this.#container = container;
@@ -29,11 +30,15 @@ export default class FilmCardPresenter extends Observable{
   #createStandardView() {
     this.#filmCardStandardView = new FilmCardStandardView({
       film: this.#film,
-      // onButtonAddToWatchlistClick,
-      // onButtonMarkAsWatchedClick,
-      // onButtonFavoriteClick,
       onContentCardClick: this.#handleContentCardClick,
     });
+    const containerControlButton = this.#filmCardStandardView.controlButtonContainer;
+    this.#filmCardControlButtonPresenter = new FilmControlButtonPresenter({
+      container: containerControlButton,
+      film: this.#film,
+      type: TypeControlButtonView.STANDARD
+    });
+    this.#filmCardControlButtonPresenter.init();
   }
 
   #createPopupView() {
@@ -42,9 +47,13 @@ export default class FilmCardPresenter extends Observable{
       comments: this.#commentsModel.comments.get(this.#film.id),
       onPopupCloseButtonClick: this.#handlePopupCloseButtonClick,
     });
-    this.#containerControlButton = this.#filmCardPopupView.controlButtonContainer;
-    this.#filmControlButtonPresenter = new FilmControlButtonPresenter({container: this.#containerControlButton, film: this.#film});
-    this.#filmControlButtonPresenter.init();
+    const containerControlButton = this.#filmCardPopupView.controlButtonContainer;
+    this.#filmPopupControlButtonPresenter = new FilmControlButtonPresenter({
+      container: containerControlButton,
+      film: this.#film,
+      type: TypeControlButtonView.EXTENDS
+    });
+    this.#filmPopupControlButtonPresenter.init();
   }
 
   removeView() {

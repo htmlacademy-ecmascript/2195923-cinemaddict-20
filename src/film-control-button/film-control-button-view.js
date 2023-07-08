@@ -3,10 +3,12 @@ import {createFilmControlButtonTemplate} from './film-control-button-template';
 import {TypeControlButton} from '../const';
 
 export default class FilmControlButtonView extends AbstractStatefulView {
-  #type = null;
-  constructor({film, type}) {
+  #buttonType = null;
+  #viewType = null;
+  constructor({film, buttonType, viewType}) {
     super();
-    this.#type = type;
+    this.#buttonType = buttonType;
+    this.#viewType = viewType;
     this._state = this.#parseToState(film);
     this.init();
   }
@@ -20,12 +22,12 @@ export default class FilmControlButtonView extends AbstractStatefulView {
   }
 
   get template() {
-    return createFilmControlButtonTemplate({state: this._state});
+    return createFilmControlButtonTemplate({state: this._state, templateType: this.#viewType});
   }
 
   #onFilmControlButtonClick = (evt) => {
     evt.preventDefault();
-    switch (this.#type) {
+    switch (this.#buttonType) {
       case TypeControlButton.WATCHLIST_BUTTON:
         this.updateElement({watchlist: !this._state.watchlist});
         break;
@@ -43,9 +45,9 @@ export default class FilmControlButtonView extends AbstractStatefulView {
 
   #parseToState(film) {
     const state = {
-      [this.#type]: film.userDetails[this.#type],
-      type: this.#type
+      [this.#buttonType]: film.userDetails[this.#buttonType],
+      type: this.#buttonType
     };
-    return film.userDetails[this.#type] === TypeControlButton.WATCHED_BUTTON ? {...state, watchingDate: film.userDetails.watchingDate} : state;
+    return film.userDetails[this.#buttonType] === TypeControlButton.WATCHED_BUTTON ? {...state, watchingDate: film.userDetails.watchingDate} : state;
   }
 }
