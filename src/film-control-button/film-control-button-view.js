@@ -40,12 +40,15 @@ export default class FilmControlButtonView extends AbstractStatefulView {
     evt.preventDefault();
     switch (this.#buttonType) {
       case TypeControlButton.WATCHLIST_BUTTON:
-        this.#handleWatchlistClick({...this.#film, userDetails: {
-          watched: this.#film.userDetails.watched,
-          watchingDate: this.#film.userDetails.watchingDate,
-          favorite: this.#film.userDetails.favorite,
-          watchlist: !this._state.watchlist}});
-        // this.updateElement({watchlist: !this._state.watchlist});
+        this.#handleWatchlistClick({
+          ...this.#film,
+          userDetails: {
+            watched: this.#film.userDetails.watched,
+            watchingDate: this.#film.userDetails.watchingDate,
+            favorite: this.#film.userDetails.favorite,
+            watchlist: !this._state.watchlist
+          }
+        });
         break;
       case TypeControlButton.FAVORITE_BUTTON:
         this.updateElement({favorite: !this._state.favorite});

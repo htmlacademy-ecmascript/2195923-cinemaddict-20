@@ -10,7 +10,8 @@ export default class FilmCardPresenter extends Observable{
   #containerPopup = null;
   #filmCardStandardView = null;
   #filmCardPopupView = null;
-  #film = null;
+  #filmId = null;
+  #filmsModel = null;
   #commentsModel = [];
   #filmCardControlButtonPresenter = null;
   #filmPopupControlButtonPresenter = null;
@@ -20,8 +21,9 @@ export default class FilmCardPresenter extends Observable{
     this.#containerPopup = containerPopup;
   }
 
-  init({film: film, commentsModel: commentsModel}) {
-    this.#film = film;
+  init({filmId: filmId, filmsModel: filmsModel, commentsModel: commentsModel}) {
+    this.#filmId = filmId;
+    this.#filmsModel = filmsModel;
     this.#commentsModel = commentsModel;
     this.#createStandardView();
     render(this.#filmCardStandardView, this.#container);
@@ -29,13 +31,14 @@ export default class FilmCardPresenter extends Observable{
 
   #createStandardView() {
     this.#filmCardStandardView = new FilmCardStandardView({
-      film: this.#film,
+      film: this.#filmsModel.films.find((film) => film.id === this.#filmId),
       onContentCardClick: this.#handleContentCardClick,
     });
     const containerControlButton = this.#filmCardStandardView.controlButtonContainer;
     this.#filmCardControlButtonPresenter = new FilmControlButtonPresenter({
       container: containerControlButton,
-      film: this.#film,
+      filmsModel: this.#filmsModel,
+      film: this.#filmsModel.films.find((film) => film.id === this.#filmId),
       type: TypeControlButtonView.STANDARD,
       handleControlButtonClick: this.#handleControlButtonClick,
     });
@@ -44,14 +47,15 @@ export default class FilmCardPresenter extends Observable{
 
   #createPopupView() {
     this.#filmCardPopupView = new FilmCardPopupView({
-      film: this.#film,
-      comments: this.#commentsModel.comments.get(this.#film.id),
+      film: this.#filmsModel.films.find((film) => film.id === this.#filmId),
+      comments: this.#commentsModel.comments.get(this.#filmId),
       onPopupCloseButtonClick: this.#handlePopupCloseButtonClick,
     });
     const containerControlButton = this.#filmCardPopupView.controlButtonContainer;
     this.#filmPopupControlButtonPresenter = new FilmControlButtonPresenter({
       container: containerControlButton,
-      film: this.#film,
+      filmsModel: this.#filmsModel,
+      film: this.#filmsModel.films.find((film) => film.id === this.#filmId),
       type: TypeControlButtonView.EXTENDS,
       handleControlButtonClick: this.#handleControlButtonClick,
     });
@@ -67,7 +71,7 @@ export default class FilmCardPresenter extends Observable{
   }
 
   #getComments = async () => {
-    await this.#commentsModel.init(this.#film.id);
+    await this.#commentsModel.init(this.#filmId);
   };
 
   #handleContentCardClick = () => {
@@ -75,13 +79,13 @@ export default class FilmCardPresenter extends Observable{
       this.#createPopupView();
       render(this.#filmCardPopupView, this.#containerPopup);
       this.#filmCardPopupView.init();
-      this._notify('OPEN_POPUP', this.#film.id);
+      this._notify('OPEN_POPUP', this.#filmId);
     });
   };
 
   #handlePopupCloseButtonClick = () => {
     this.removePopup();
-    this._notify('CLOSE_POPUP', this.#film.id);
+    this._notify('CLOSE_POPUP', this.#filmId);
   };
 
   #handleControlButtonClick = (watchlistButtonState) => {

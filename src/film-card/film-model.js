@@ -1,8 +1,11 @@
-export default class FilmModel {
+import Observable from '../framework/observable';
+
+export default class FilmModel extends Observable{
   #films = [];
   #filmsApiService = null;
 
   constructor({filmsApiService}) {
+    super();
     this.#filmsApiService = filmsApiService;
   }
 
@@ -20,6 +23,7 @@ export default class FilmModel {
       updateFilm,
       ...this.#films.slice(index + 1),
     ];
+    this._notify('UPDATE_FILM', this.films[index]);
   }
 
   get films() {

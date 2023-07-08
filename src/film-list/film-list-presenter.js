@@ -45,7 +45,7 @@ export default class FilmListPresenter {
     for (let i = 0; i < DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page; i++) {
       const filmCardPresenter = new FilmCardPresenter({container: containerFilms, containerPopup: this.#containerPopup});
       this.#filmPresenters.set(this.#filmsModel.films[i].id, filmCardPresenter);
-      filmCardPresenter.init({film: this.#filmsModel.films[i], commentsModel: this.#commentsModel});
+      filmCardPresenter.init({filmId: this.#filmsModel.films[i].id, filmsModel: this.#filmsModel, commentsModel: this.#commentsModel});
       this.#filmPresenters.get(this.#filmsModel.films[i].id).addObserver(this.#makeAction);
     }
     if (DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page >= this.#filmsModel.films.length) {
