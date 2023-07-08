@@ -1,7 +1,7 @@
-import AbstractView from '../framework/view/abstract-view';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 import {createPopupFilmCardTemplate} from './film-card-popup-template';
 
-export default class FilmCardPopupView extends AbstractView {
+export default class FilmCardPopupView extends AbstractStatefulView {
   #film = null;
   #comments = [];
   #popupCloseButton = null;
@@ -21,14 +21,14 @@ export default class FilmCardPopupView extends AbstractView {
 
   init() {
     this.#popupCloseButton = this.element.querySelector('.film-details__close-btn');
-    this.setHandlers();
+    this._restoreHandlers();
   }
 
   get template() {
     return createPopupFilmCardTemplate({film: this.#film, comments: this.#comments});
   }
 
-  setHandlers() {
+  _restoreHandlers() {
     this.#popupCloseButton.addEventListener('click', this.#onPopupCloseButtonClick);
   }
 
@@ -36,4 +36,14 @@ export default class FilmCardPopupView extends AbstractView {
     evt.preventDefault();
     this.#handlePopupCloseButtonClick();
   };
+
+  #parseToState({film, comments}) {
+    return {...structuredClone(film), comments: structuredClone(comments)};
+  }
+
+  #parseToModels(state) {
+    const comments = structuredClone(state.comments);
+    const film = { ...structuredClone(state), comments: Array.from(state.comments, (comment) => comment.id)};
+    return {film: film, comments: comments};
+  }
 }

@@ -49,6 +49,10 @@ export default class FilmCardPresenter extends Observable{
     remove(this.#filmCardPopupView);
   }
 
+  #getComments = async () => {
+    await this.#commentsModel.init(this.#film.id);
+  };
+
   #handleContentCardClick = () => {
     this.#getComments().then(() => {
       this.#createPopupView();
@@ -56,10 +60,6 @@ export default class FilmCardPresenter extends Observable{
       this.#filmCardPopupView.init();
       this._notify('OPEN_POPUP', this.#film.id);
     });
-  };
-
-  #getComments = async () => {
-    await this.#commentsModel.init(this.#film.id);
   };
 
   #handlePopupCloseButtonClick = () => {
