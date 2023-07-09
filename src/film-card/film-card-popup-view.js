@@ -28,6 +28,10 @@ export default class FilmCardPopupView extends AbstractStatefulView {
     return this.element.querySelector('.film-details__controls');
   }
 
+  get commentsListContainer() {
+    return this.element.querySelector('.film-details__bottom-container');
+  }
+
   _restoreHandlers() {
     this.#popupCloseButton = this.element.querySelector('.film-details__close-btn');
     this.#popupCloseButton.addEventListener('click', this.#onPopupCloseButtonClick);

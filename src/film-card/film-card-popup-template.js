@@ -9,32 +9,6 @@ function getGenres(genres) {
   return genresList;
 }
 
-function createComment(comment) {
-  const date = getHumanizedTime(comment.date, TimeFormat.DATE_COMMENT_CREATE);
-
-  return (`
-    <li class="film-details__comment" id="${comment.id}">
-      <span class="film-details__comment-emoji">
-        <img src="./images/emoji/${comment.emotion}.png" width="55" height="55" alt="emoji-${comment.emotion}">
-      </span>
-      <div>
-        <p class="film-details__comment-text">${comment.comment}</p>
-        <p class="film-details__comment-info">
-          <span class="film-details__comment-author">${comment.author}</span>
-          <span class="film-details__comment-day">${date}</span>
-          <button class="film-details__comment-delete">Delete</button>
-        </p>
-      </div>
-    </li>
-  `);
-}
-
-function createComments(comments) {
-  if (comments === undefined) {
-    return;
-  }
-  return comments.map((comment) => createComment(comment)).join('');
-}
 function createPopupFilmCardTemplate({state: state}) {
   const writers = state.filmInfo.writers.join(', ');
   const actors = state.filmInfo.actors.join(', ');
@@ -42,9 +16,6 @@ function createPopupFilmCardTemplate({state: state}) {
   const genre = state.filmInfo.genre.length > 1 ? 'Genres' : 'Genre';
   const genresList = getGenres(state.filmInfo.genre);
   const releaseFilmDate = getHumanizedTime(state.filmInfo.release.date, TimeFormat.DATE_RELEASE_FILM);
-  const activeAddToWatchlist = state.userDetails.watchlist ? 'film-details__control-button--active' : '';
-  const activeMarkAsWatched = state.userDetails.alreadyWatched ? 'film-details__control-button--active' : '';
-  const activeFavorite = state.userDetails.favorite ? 'film-details__control-button--active' : '';
 
   return (`
     <section class="film-details">
@@ -116,43 +87,7 @@ function createPopupFilmCardTemplate({state: state}) {
         </div>
 
         <div class="film-details__bottom-container">
-          <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${state.comments?.length || 0}</span></h3>
 
-            <ul class="film-details__comments-list">
-              ${createComments(state.comments)}
-            </ul>
-
-            <form class="film-details__new-comment" action="" method="get">
-              <div class="film-details__add-emoji-label"></div>
-
-              <label class="film-details__comment-label">
-                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
-              </label>
-
-              <div class="film-details__emoji-list">
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-                <label class="film-details__emoji-label" for="emoji-smile">
-                  <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-                </label>
-
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-                <label class="film-details__emoji-label" for="emoji-sleeping">
-                  <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-                </label>
-
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-                <label class="film-details__emoji-label" for="emoji-puke">
-                  <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-                </label>
-
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-                <label class="film-details__emoji-label" for="emoji-angry">
-                  <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-                </label>
-              </div>
-            </form>
-          </section>
         </div>
       </div>
     </section>

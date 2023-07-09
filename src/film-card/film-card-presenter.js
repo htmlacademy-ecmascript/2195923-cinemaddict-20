@@ -4,6 +4,7 @@ import FilmCardPopupView from './film-card-popup-view';
 import Observable from '../framework/observable';
 import FilmControlButtonPresenter from '../film-control-button/film-control-button-presenter';
 import {TypeControlButtonView} from '../const';
+import FilmCommentsListPresenter from '../film-comments-list/film-comments-list-presenter';
 
 export default class FilmCardPresenter extends Observable{
   #container = null;
@@ -15,6 +16,7 @@ export default class FilmCardPresenter extends Observable{
   #commentsModel = [];
   #filmCardControlButtonPresenter = null;
   #filmPopupControlButtonPresenter = null;
+  #filmCommentsListPresenter = null;
   constructor({container, containerPopup}) {
     super();
     this.#container = container;
@@ -51,7 +53,10 @@ export default class FilmCardPresenter extends Observable{
       comments: this.#commentsModel.comments.get(this.#filmId),
       onPopupCloseButtonClick: this.#handlePopupCloseButtonClick,
     });
+
     const containerControlButton = this.#filmCardPopupView.controlButtonContainer;
+    const containerCommentsList = this.#filmCardPopupView.commentsListContainer;
+
     this.#filmPopupControlButtonPresenter = new FilmControlButtonPresenter({
       container: containerControlButton,
       filmsModel: this.#filmsModel,
@@ -59,7 +64,15 @@ export default class FilmCardPresenter extends Observable{
       type: TypeControlButtonView.EXTENDS,
       handleFilmControlButtonClick: this.#handleFilmControlButtonClick,
     });
+
+    this.#filmCommentsListPresenter = new FilmCommentsListPresenter({
+      container: containerCommentsList,
+      commentsModel: this.#commentsModel,
+      comments: this.#commentsModel.comments.get(this.#filmId),
+    });
+
     this.#filmPopupControlButtonPresenter.init();
+    this.#filmCommentsListPresenter.init();
   }
 
   removeView() {
