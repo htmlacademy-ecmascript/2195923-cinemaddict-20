@@ -3,8 +3,6 @@ import StatisticsPresenter from './statistics/statistics-presenter';
 import FilmModel from './film-card/film-model';
 import FilmsApiService from './api/films-api-service';
 import {AUTHORIZATION, END_POINT} from './const';
-// import FilmCardPresenter from './film-card/film-card-presenter';
-// import FilmCardPopupPresenter from './film-card-popup/film-card-popup-presenter';
 import FilmListPresenter from './film-list/film-list-presenter';
 import CommentsApiService from './api/comments-api-service';
 import CommentsModel from './film-card/comments-model';
@@ -14,17 +12,15 @@ const commentsModel = new CommentsModel({commentsApiService: new CommentsApiServ
 
 const header = document.querySelector('.header');
 const statistics = document.querySelector('.footer__statistics');
-// const filmCardContainer = document.querySelector('.films-list__container');
 const body = document.querySelector('body');
 const main = document.querySelector('.main');
-const profilePresenter = new ProfilePresenter({container: header});
+
+const profilePresenter = new ProfilePresenter({container: header, filmsModel: filmsModel});
 const statisticsPresenter = new StatisticsPresenter({container: statistics});
-// const filmCardPresenter = new FilmCardPresenter({container: filmCardContainer});
-// const filmCardPopupPresenter = new FilmCardPopupPresenter({container: body});
 const filmListPresenter = new FilmListPresenter({container: main, containerPopup: body});
-profilePresenter.init({numberOfFilmsWatched: 25});
-statisticsPresenter.init({numberOfFilms: 1035});
 
 filmsModel.init().then(() => {
+  profilePresenter.init();
   filmListPresenter.init({filmsModel: filmsModel, commentsModel: commentsModel});
+  statisticsPresenter.init({numberOfFilms: 1035});
 });
