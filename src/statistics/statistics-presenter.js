@@ -3,13 +3,15 @@ import {render} from '../framework/render';
 
 export default class StatisticsPresenter {
   #container = null;
+  #filmsModel = null;
   #statisticsView = null;
-  constructor({container}) {
+  constructor({container, filmsModel}) {
     this.#container = container;
+    this.#filmsModel = filmsModel;
   }
 
-  init({numberOfFilms}) {
-    this.#statisticsView = new StatisticsView({numberOfFilms});
+  init() {
+    this.#statisticsView = new StatisticsView(this.#filmsModel.films.length);
     render(this.#statisticsView, this.#container);
   }
 }

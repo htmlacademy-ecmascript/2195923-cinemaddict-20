@@ -16,7 +16,7 @@ const body = document.querySelector('body');
 const main = document.querySelector('.main');
 
 const profilePresenter = new ProfilePresenter({container: header, filmsModel: filmsModel});
-const statisticsPresenter = new StatisticsPresenter({container: statistics});
+const statisticsPresenter = new StatisticsPresenter({container: statistics, filmsModel: filmsModel});
 const filmListPresenter = new FilmListPresenter({container: main, containerPopup: body});
 
 filmsModel.init().then(() => {

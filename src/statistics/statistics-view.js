@@ -3,7 +3,7 @@ import {createStatisticsTemplate} from './statistics-template';
 
 export default class StatisticsView extends AbstractView {
   #numberOfFilms = null;
-  constructor({numberOfFilms}) {
+  constructor(numberOfFilms) {
     super();
     this.#numberOfFilms = numberOfFilms;
   }
