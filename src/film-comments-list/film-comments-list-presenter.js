@@ -26,7 +26,11 @@ export default class FilmCommentsListPresenter {
 
   #renderComments() {
     const commentsContainer = this.#filmCommentsListView.commentsContainer;
-    this.#commentsPresenter = new FilmCommentsPresenter({container: commentsContainer, comments: this.#comments});
+    this.#commentsPresenter = new FilmCommentsPresenter({
+      container: commentsContainer,
+      commentsModel: this.#commentsModel,
+      comments: this.#comments
+    });
     this.#commentsPresenter.init();
   }
 

@@ -48,9 +48,14 @@ export default class FilmCardPresenter extends Observable{
   }
 
   #createPopupView() {
+    const comments = [];
+    this.#commentsModel.comments.forEach((value) => {
+      comments.push(value);
+    });
+
     this.#filmCardPopupView = new FilmCardPopupView({
       film: this.#filmsModel.films.find((film) => film.id === this.#filmId),
-      comments: this.#commentsModel.comments.get(this.#filmId),
+      comments: comments,
       onPopupCloseButtonClick: this.#handlePopupCloseButtonClick,
     });
 
@@ -68,7 +73,7 @@ export default class FilmCardPresenter extends Observable{
     this.#filmCommentsListPresenter = new FilmCommentsListPresenter({
       container: containerCommentsList,
       commentsModel: this.#commentsModel,
-      comments: this.#commentsModel.comments.get(this.#filmId),
+      comments: comments,
     });
 
     this.#filmPopupControlButtonPresenter.init();

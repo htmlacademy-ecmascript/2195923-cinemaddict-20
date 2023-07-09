@@ -8,6 +8,18 @@ export default class CommentsApiService extends ApiService {
       .then(ApiService.parseResponse);
   }
 
+  async deleteComment(commentId) {
+    const response = await this._load({
+      url: `comments/${commentId}`,
+      method: Method.DELETE,
+      headers: new Headers({'Content-Type': 'application/json'}),
+    });
+
+    // const parsedResponse = await ApiService.parseResponse(response);
+
+    return response;
+  }
+
   // async updatePoint(point) {
   //   const response = await this._load({
   //     url: `points/${point.id}`,

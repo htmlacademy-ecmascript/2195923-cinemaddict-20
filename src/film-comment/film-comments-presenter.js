@@ -1,20 +1,39 @@
 import FilmCommentView from './film-comment-view';
-import {render} from '../framework/render';
+import {render, remove} from '../framework/render';
 
 export default class FilmCommentsPresenter {
   #container = null;
-  #comments = null;
+  #comments = [];
+  #commentsModel = null;
   #commentsView = new Map();
-  constructor({container, comments}) {
+  constructor({container, commentsModel, comments}) {
     this.#container = container;
+    this.#commentsModel = commentsModel;
     this.#comments = comments;
+    this.#commentsModel.addObserver(this.#removeComment);
   }
 
   init() {
     for (const comment of this.#comments) {
-      const filmCommentView = new FilmCommentView(comment);
+      const filmCommentView = new FilmCommentView({
+        comment: comment,
+        handleCommentDeleteButtonClick: this.#handleCommentDeleteButtonClick
+      });
       this.#commentsView.set(comment.id, filmCommentView);
       render(filmCommentView, this.#container);
     }
   }
+
+  #handleCommentDeleteButtonClick = (commentId) => {
+    this.#commentsModel.deleteComment(commentId);
+  };
+
+
+  #removeComment = (event, commentId) => {
+    switch (event) {
+      case 'DELETE_COMMENT':
+        remove(this.#commentsView.get(commentId));
+        this.#commentsView.delete(commentId);
+    }
+  };
 }
