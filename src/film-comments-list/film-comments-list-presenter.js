@@ -2,6 +2,7 @@ import FilmCommentsListView from './film-comments-list-view';
 import {render} from '../framework/render';
 import FilmCommentsPresenter from '../film-comment/film-comments-presenter';
 import FilmAddCommentFormPresenter from '../film-add-comment-form/film-add-comment-form-presenter';
+import FilmCommentCountPresenter from '../film-comment-count/film-comment-count-presenter';
 
 export default class FilmCommentsListPresenter {
   #container = null;
@@ -10,6 +11,7 @@ export default class FilmCommentsListPresenter {
   #comments = null;
   #commentsPresenter = null;
   #commentFormPresenter = null;
+  #commentCountPresenter = null;
 
   constructor({container, commentsModel, comments}) {
     this.#container = container;
@@ -20,8 +22,19 @@ export default class FilmCommentsListPresenter {
   init() {
     this.#filmCommentsListView = new FilmCommentsListView({comments: this.#comments});
     render(this.#filmCommentsListView, this.#container);
+    this.#renderCountComments();
     this.#renderComments();
     this.#renderCommentForm();
+  }
+
+  #renderCountComments() {
+    const countCommentsContainer = this.#filmCommentsListView.filmAddCommentFormContainer;
+    this.#commentCountPresenter = new FilmCommentCountPresenter({
+      container: countCommentsContainer,
+      commentsModel: this.#commentsModel,
+      commentsCount: (this.#comments?.length || 0)
+    });
+    this.#commentCountPresenter.init();
   }
 
   #renderComments() {

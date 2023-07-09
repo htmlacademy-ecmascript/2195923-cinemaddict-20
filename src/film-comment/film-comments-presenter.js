@@ -30,9 +30,12 @@ export default class FilmCommentsPresenter {
 
 
   #removeComment = (event, commentId) => {
+    let x;
     switch (event) {
       case 'DELETE_COMMENT':
-        remove(this.#commentsView.get(commentId));
+        console.log(this.#commentsView);
+        x = this.#commentsView.get(commentId);
+        remove(x);
         this.#commentsView.delete(commentId);
     }
   };

@@ -9,7 +9,7 @@ export default class FilmCommentsListView extends AbstractView {
   }
 
   get template() {
-    return createCommentsListTemplate(this.#countComments);
+    return createCommentsListTemplate();
   }
 
   get commentsContainer() {
@@ -18,9 +18,5 @@ export default class FilmCommentsListView extends AbstractView {
 
   get filmAddCommentFormContainer() {
     return this.element;
-  }
-
-  get #countComments() {
-    return this.#comments?.length || 0;
   }
 }
