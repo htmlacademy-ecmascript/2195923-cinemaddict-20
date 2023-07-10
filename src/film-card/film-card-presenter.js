@@ -103,10 +103,15 @@ export default class FilmCardPresenter extends Observable{
 
   #handlePopupCloseButtonClick = () => {
     this.removePopup();
+    this.#removeObserver();
     this._notify('CLOSE_POPUP', this.#filmId);
   };
 
   #handleFilmControlButtonClick = (state) => {
     this._notify('WATCHLIST_CLICK', state);
   };
+
+  #removeObserver() {
+    this.#filmCommentsListPresenter.removeObserver();
+  }
 }

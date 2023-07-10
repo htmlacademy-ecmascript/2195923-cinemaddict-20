@@ -11,6 +11,9 @@ export default class FilmCommentsPresenter {
     this.#commentsModel = commentsModel;
     this.#comments = comments;
     this.#commentsModel.addObserver(this.#removeComment);
+    console.log('В конструкторе ');
+    console.log(this);
+    console.log(this.#commentsView);
   }
 
   init() {
@@ -33,10 +36,15 @@ export default class FilmCommentsPresenter {
     let x;
     switch (event) {
       case 'DELETE_COMMENT':
+        console.log(this);
         console.log(this.#commentsView);
         x = this.#commentsView.get(commentId);
         remove(x);
         this.#commentsView.delete(commentId);
     }
+  };
+
+  removeObserver = () => {
+    this.#commentsModel.removeObserver(this.#removeComment);
   };
 }

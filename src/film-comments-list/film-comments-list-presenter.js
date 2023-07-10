@@ -52,4 +52,8 @@ export default class FilmCommentsListPresenter {
     this.#commentFormPresenter = new FilmAddCommentFormPresenter({container: commentFormContainer});
     this.#commentFormPresenter.init();
   }
+
+  removeObserver = () => {
+    this.#commentsPresenter.removeObserver();
+  };
 }

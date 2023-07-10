@@ -10,6 +10,7 @@ export default class CommentsModel extends Observable{
   }
 
   async init(filmId) {
+    this.#comments.clear();
     const comments = await this.#commentsApiService.getComments(filmId);
     for (const comment of comments) {
       this.#comments.set(comment.id, this.#commentsApiService.adaptToClient(comment));
