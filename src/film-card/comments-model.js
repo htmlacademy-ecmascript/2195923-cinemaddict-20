@@ -10,8 +10,8 @@ export default class CommentsModel extends Observable{
   }
 
   async init(filmId) {
-    this.#comments.clear();
     const comments = await this.#commentsApiService.getComments(filmId);
+    this.#comments.clear();
     for (const comment of comments) {
       this.#comments.set(comment.id, this.#commentsApiService.adaptToClient(comment));
     }
@@ -19,6 +19,15 @@ export default class CommentsModel extends Observable{
 
   get comments() {
     return this.#comments;
+  }
+
+  async addComment({filmId, comment}) {
+    const commentAndMovie = await this.#commentsApiService.addComment({filmId, comment});
+    this.#comments.clear();
+    for (const commentElement of commentAndMovie.comments) {
+      this.#comments.set(commentElement.id, this.#commentsApiService.adaptToClient(commentElement));
+    }
+    this._notify('ADD_COMMENT', this.#comments);
   }
 
   async deleteComment(commentId) {

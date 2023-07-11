@@ -1,10 +1,17 @@
-function createAddCommentFormTemplate() {
+function getEmotion(state) {
+  if (state.emotion === null) {
+    return '';
+  }
+  return `<img src="./images/emoji/${state.emotion}.png" width="55" height="55" alt="emoji">`;
+}
+
+function createAddCommentFormTemplate(state) {
   return (`
         <form class="film-details__new-comment" action="" method="get">
-          <div class="film-details__add-emoji-label"></div>
+          <div class="film-details__add-emoji-label">${getEmotion(state)}</div>
 
           <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">Great movie!</textarea>
           </label>
 
           <div class="film-details__emoji-list">

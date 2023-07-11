@@ -24,3 +24,4 @@ filmsModel.init().then(() => {
   filmListPresenter.init({filmsModel: filmsModel, commentsModel: commentsModel});
   statisticsPresenter.init({numberOfFilms: 1035});
 });
+

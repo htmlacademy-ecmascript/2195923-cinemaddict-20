@@ -11,9 +11,7 @@ export default class FilmCommentsPresenter {
     this.#commentsModel = commentsModel;
     this.#comments = comments;
     this.#commentsModel.addObserver(this.#removeComment);
-    console.log('В конструкторе ');
-    console.log(this);
-    console.log(this.#commentsView);
+    this.#commentsModel.addObserver(this.#addComment);
   }
 
   init() {
@@ -31,15 +29,27 @@ export default class FilmCommentsPresenter {
     this.#commentsModel.deleteComment(commentId);
   };
 
+  #addComment = (event, comments) => {
+    switch (event) {
+      case 'ADD_COMMENT':
+        comments.forEach((comment, commentId) => {
+          if (!this.#commentsView.has(commentId)) {
+            const filmCommentView = new FilmCommentView({
+              comment: comment,
+              handleCommentDeleteButtonClick: this.#handleCommentDeleteButtonClick
+            });
+            this.#commentsView.set(comment.id, filmCommentView);
+            render(filmCommentView, this.#container);
+            this.#comments.push(comment);
+          }
+        });
+    }
+  };
 
   #removeComment = (event, commentId) => {
-    let x;
     switch (event) {
       case 'DELETE_COMMENT':
-        console.log(this);
-        console.log(this.#commentsView);
-        x = this.#commentsView.get(commentId);
-        remove(x);
+        remove(this.#commentsView.get(commentId));
         this.#commentsView.delete(commentId);
     }
   };

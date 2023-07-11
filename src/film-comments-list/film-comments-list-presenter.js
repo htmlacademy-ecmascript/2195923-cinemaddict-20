@@ -9,14 +9,16 @@ export default class FilmCommentsListPresenter {
   #filmCommentsListView = null;
   #commentsModel = null;
   #comments = null;
+  #filmId = null;
   #commentsPresenter = null;
   #commentFormPresenter = null;
   #commentCountPresenter = null;
 
-  constructor({container, commentsModel, comments}) {
+  constructor({container, commentsModel, comments, filmId}) {
     this.#container = container;
     this.#commentsModel = commentsModel;
     this.#comments = comments;
+    this.#filmId = filmId;
   }
 
   init() {
@@ -49,11 +51,19 @@ export default class FilmCommentsListPresenter {
 
   #renderCommentForm() {
     const commentFormContainer = this.#filmCommentsListView.filmAddCommentFormContainer;
-    this.#commentFormPresenter = new FilmAddCommentFormPresenter({container: commentFormContainer});
+    this.#commentFormPresenter = new FilmAddCommentFormPresenter({
+      container: commentFormContainer,
+      commentsModel: this.#commentsModel,
+      filmId: this.#filmId
+    });
     this.#commentFormPresenter.init();
   }
 
   removeObserver = () => {
     this.#commentsPresenter.removeObserver();
+  };
+
+  handleEnterCommentFormKeydown = () => {
+    this.#commentFormPresenter.handleEnterCommentFormKeydown();
   };
 }

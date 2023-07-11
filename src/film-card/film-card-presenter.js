@@ -13,6 +13,7 @@ export default class FilmCardPresenter extends Observable{
   #filmCardPopupView = null;
   #filmId = null;
   #filmsModel = null;
+  #film = null;
   #commentsModel = [];
   #filmCardControlButtonPresenter = null;
   #filmPopupControlButtonPresenter = null;
@@ -26,21 +27,23 @@ export default class FilmCardPresenter extends Observable{
   init({filmId: filmId, filmsModel: filmsModel, commentsModel: commentsModel}) {
     this.#filmId = filmId;
     this.#filmsModel = filmsModel;
+    this.#film = this.#filmsModel.films.find((film) => film.id === this.#filmId);
     this.#commentsModel = commentsModel;
+    // this.#commentsModel.addObserver(this.#updateCountComments);
     this.#createStandardView();
     render(this.#filmCardStandardView, this.#container);
   }
 
   #createStandardView() {
     this.#filmCardStandardView = new FilmCardStandardView({
-      film: this.#filmsModel.films.find((film) => film.id === this.#filmId),
+      film: this.#film,
       onContentCardClick: this.#handleContentCardClick,
     });
     const containerControlButton = this.#filmCardStandardView.controlButtonContainer;
     this.#filmCardControlButtonPresenter = new FilmControlButtonPresenter({
       container: containerControlButton,
       filmsModel: this.#filmsModel,
-      film: this.#filmsModel.films.find((film) => film.id === this.#filmId),
+      film: this.#film,
       type: TypeControlButtonView.STANDARD,
       handleFilmControlButtonClick: this.#handleFilmControlButtonClick,
     });
@@ -65,7 +68,7 @@ export default class FilmCardPresenter extends Observable{
     this.#filmPopupControlButtonPresenter = new FilmControlButtonPresenter({
       container: containerControlButton,
       filmsModel: this.#filmsModel,
-      film: this.#filmsModel.films.find((film) => film.id === this.#filmId),
+      film: this.#film,
       type: TypeControlButtonView.EXTENDS,
       handleFilmControlButtonClick: this.#handleFilmControlButtonClick,
     });
@@ -74,10 +77,12 @@ export default class FilmCardPresenter extends Observable{
       container: containerCommentsList,
       commentsModel: this.#commentsModel,
       comments: comments,
+      filmId: this.#filmId,
     });
 
     this.#filmPopupControlButtonPresenter.init();
     this.#filmCommentsListPresenter.init();
+    document.addEventListener('keydown', this.#onEnterCommentFormKeydown);
   }
 
   removeView() {
@@ -104,11 +109,19 @@ export default class FilmCardPresenter extends Observable{
   #handlePopupCloseButtonClick = () => {
     this.removePopup();
     this.#removeObserver();
+    document.removeEventListener('keydown', this.#onEnterCommentFormKeydown);
     this._notify('CLOSE_POPUP', this.#filmId);
   };
 
   #handleFilmControlButtonClick = (state) => {
     this._notify('WATCHLIST_CLICK', state);
+  };
+
+  #onEnterCommentFormKeydown = (evt) => {
+    evt.preventDefault();
+    if ((evt.metaKey || evt.ctrlKey) && evt.key === 'Enter') {
+      this.#filmCommentsListPresenter.handleEnterCommentFormKeydown();
+    }
   };
 
   #removeObserver() {

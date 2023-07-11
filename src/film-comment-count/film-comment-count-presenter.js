@@ -24,6 +24,12 @@ export default class FilmCommentCountPresenter {
         remove(this.#filmCommentCountView);
         this.#commentsCount--;
         this.init();
+        break;
+      case 'ADD_COMMENT':
+        remove(this.#filmCommentCountView);
+        this.#commentsCount++;
+        this.init();
+        break;
     }
   };
 }
