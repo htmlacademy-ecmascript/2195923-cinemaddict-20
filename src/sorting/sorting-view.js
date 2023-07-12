@@ -21,6 +21,7 @@ export default class SortingView extends AbstractStatefulView {
   }
 
   #onSortingClick = (evt) => {
+    console.log(evt.target);
     evt.preventDefault();
     this.updateElement({type: evt.target.id});
     this.#handleSort(evt.target.id);

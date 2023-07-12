@@ -30,6 +30,8 @@ export default class SortingPresenter {
       case 'default':
         sortingFunction = (firstFilm, secondFilm) => firstFilm.id - secondFilm.id;
         break;
+      default:
+        return;
     }
     this.#filmsModel.getSortingFilms(sortingFunction);
     this.#filmListPresenter.removeCards();
