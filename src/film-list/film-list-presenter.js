@@ -29,7 +29,7 @@ export default class FilmListPresenter {
   }
 
   render() {
-    this.#renderCards();
+    this.renderCards();
     this.#renderShowMoreButton();
     this.#buttonShowMorePresenter.addObserver(this.#renderFilmList);
   }
@@ -40,7 +40,7 @@ export default class FilmListPresenter {
     this.#buttonShowMorePresenter.init();
   }
 
-  #renderCards() {
+  renderCards() {
     const containerFilms = this.#filmListView.containerFilms;
     for (let i = 0; i < DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page; i++) {
       const filmCardPresenter = new FilmCardPresenter({container: containerFilms, containerPopup: this.#containerPopup});
@@ -53,16 +53,22 @@ export default class FilmListPresenter {
     }
   }
 
-  #removeCards() {
+  removeCards() {
     this.#filmPresenters.forEach((filmPresenter) => filmPresenter.removeView());
     this.#filmPresenters.clear();
   }
 
   #renderFilmList = (event, page) => {
     this.#page = page;
-    this.#removeCards();
-    this.#renderCards();
+    this.removeCards();
+    this.renderCards();
   };
+
+  resetDisplayFilmsCount() {
+    this.#buttonShowMorePresenter.removeView();
+    this.#buttonShowMorePresenter.init();
+    this.#page = 1;
+  }
 
   #makeAction = (event, payload) => {
     switch(event) {
@@ -79,7 +85,6 @@ export default class FilmListPresenter {
         break;
       }
     }
-
   };
 
   #renderPopup(presenterId) {

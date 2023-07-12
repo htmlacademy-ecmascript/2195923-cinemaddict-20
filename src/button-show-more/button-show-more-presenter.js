@@ -11,8 +11,9 @@ export default class ButtonShowMorePresenter extends Observable{
     this.#container = container;
   }
 
-  init() {
+  init(page = 1) {
     this.#buttonShowMoreView = new ButtonShowMoreView({handleButtonShowMoreButtonClick: this.handleButtonShowMoreButtonClick});
+    this.#page = page;
     render(this.#buttonShowMoreView, this.#container);
   }
 
