@@ -33,4 +33,8 @@ export default class FilmModel extends Observable{
   getSortingFilms(sortingFunction) {
     this.#films = structuredClone(this.#films).sort(sortingFunction);
   }
+
+  getFilterFilms(filterFunction) {
+    return structuredClone(this.films).filter(filterFunction);
+  }
 }

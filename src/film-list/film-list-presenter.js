@@ -40,15 +40,16 @@ export default class FilmListPresenter {
     this.#buttonShowMorePresenter.init();
   }
 
-  renderCards() {
+  renderCards(films = this.#filmsModel.films) {
     const containerFilms = this.#filmListView.containerFilms;
-    for (let i = 0; i < DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page; i++) {
+    const countDisplayFilms = Math.min(DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page, films.length);
+    for (let i = 0; i < countDisplayFilms; i++) {
       const filmCardPresenter = new FilmCardPresenter({container: containerFilms, containerPopup: this.#containerPopup});
-      this.#filmPresenters.set(this.#filmsModel.films[i].id, filmCardPresenter);
-      filmCardPresenter.init({filmId: this.#filmsModel.films[i].id, filmsModel: this.#filmsModel, commentsModel: this.#commentsModel});
-      this.#filmPresenters.get(this.#filmsModel.films[i].id).addObserver(this.#makeAction);
+      this.#filmPresenters.set(films[i].id, filmCardPresenter);
+      filmCardPresenter.init({filmId: films[i].id, filmsModel: this.#filmsModel, commentsModel: this.#commentsModel});
+      this.#filmPresenters.get(films[i].id).addObserver(this.#makeAction);
     }
-    if (DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page >= this.#filmsModel.films.length) {
+    if (DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page >= films.length) {
       this.#buttonShowMorePresenter.removeView();
     }
   }
