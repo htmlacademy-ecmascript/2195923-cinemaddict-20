@@ -26,8 +26,8 @@ const filmListPresenter = new FilmListPresenter({container: main, containerPopup
 
 filmsModel.init().then(() => {
   profilePresenter.init();
-  filtersPresenter.init();
   sortingPresenter.init({filmsModel: filmsModel, filmListPresenter: filmListPresenter});
+  filtersPresenter.init({filmsModel: filmsModel});
   filmListPresenter.init({filmsModel: filmsModel, commentsModel: commentsModel});
   statisticsPresenter.init({numberOfFilms: 1035});
 });
