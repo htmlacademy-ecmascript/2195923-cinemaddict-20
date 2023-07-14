@@ -15,8 +15,8 @@ export default class FiltersView extends AbstractStatefulView {
     this._restoreHandlers();
   }
 
-  init(countCountFilmsByFilters) {
-    const {countWatchlistFilms, countWatchedFilms, countFavoriteFilms} = countCountFilmsByFilters;
+  init(countFilmsByFilters) {
+    const {countWatchlistFilms, countWatchedFilms, countFavoriteFilms} = countFilmsByFilters;
     this.updateElement({
       countWatchlistFilms: countWatchlistFilms,
       countWatchedFilms: countWatchedFilms,
@@ -34,6 +34,9 @@ export default class FiltersView extends AbstractStatefulView {
 
   #onFiltersClick = (evt) => {
     evt.preventDefault();
+    this.updateElement({
+      type: evt.target.id,
+    });
     this.#handleFiltersClick(evt.target.id);
   };
 }

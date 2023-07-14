@@ -33,7 +33,7 @@ export default class SortingPresenter {
       default:
         return;
     }
-    this.#filmsModel.getSortingFilms(sortingFunction);
+    this.#filmsModel.sorting = sortingFunction;
     this.#filmListPresenter.removeCards();
     this.#filmListPresenter.resetDisplayFilmsCount();
     this.#filmListPresenter.renderCards();

@@ -3,6 +3,8 @@ import Observable from '../framework/observable';
 export default class FilmModel extends Observable{
   #films = [];
   #filmsApiService = null;
+  #sorting = (firstFilm, secondFilm) => firstFilm.id - secondFilm.id;
+  #filter = () => true;
 
   constructor({filmsApiService}) {
     super();
@@ -27,14 +29,22 @@ export default class FilmModel extends Observable{
   }
 
   get films() {
-    return this.#films;
+    return structuredClone(this.#films).filter(this.filter).sort(this.sorting);
   }
 
-  getSortingFilms(sortingFunction) {
-    this.#films = structuredClone(this.#films).sort(sortingFunction);
+  set sorting(sortingFunction) {
+    this.#sorting = sortingFunction;
   }
 
-  getFilterFilms(filterFunction) {
-    return structuredClone(this.films).filter(filterFunction);
+  get sorting() {
+    return this.#sorting;
+  }
+
+  set filter(filterFunction) {
+    this.#filter = filterFunction;
+  }
+
+  get filter() {
+    return this.#filter;
   }
 }

@@ -40,7 +40,8 @@ export default class FilmListPresenter {
     this.#buttonShowMorePresenter.init();
   }
 
-  renderCards(films = this.#filmsModel.films) {
+  renderCards() {
+    const films = this.#filmsModel.films;
     const containerFilms = this.#filmListView.containerFilms;
     const countDisplayFilms = Math.min(DEFAULT_NUMBER_FILMS_ON_PAGE * this.#page, films.length);
     for (let i = 0; i < countDisplayFilms; i++) {

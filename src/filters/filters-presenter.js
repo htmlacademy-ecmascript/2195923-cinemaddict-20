@@ -74,9 +74,9 @@ export default class FiltersPresenter {
       default:
         return;
     }
-    this.#filterFilms = this.#filmsModel.getFilterFilms(filterFunction);
+    this.#filmsModel.filter = filterFunction;
     this.#filmListPresenter.removeCards();
     this.#filmListPresenter.resetDisplayFilmsCount();
-    this.#filmListPresenter.renderCards(this.#filterFilms);
+    this.#filmListPresenter.renderCards();
   };
 }
